@@ -1,0 +1,4 @@
+project: /home/grillo/Documentos/camara
+simics-root: /home/grillo/SIMICS/simics-6.0.128
+simics-model-builder: /home/grillo/SIMICS/simics-6.0.128
+mingw: None
