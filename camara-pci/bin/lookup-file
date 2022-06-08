@@ -1,9 +1,0 @@
-#!/bin/bash
-# this file will be overwritten by the project setup script
-SIMICS_BASE_PACKAGE="/home/grillo/SIMICS/simics-6.0.128"
-export SIMICS_BASE_PACKAGE
-if [ -f "/home/grillo/Documentos/camara/.package-list" ]; then
-    exec "/home/grillo/SIMICS/simics-6.0.128/bin/lookup-file" --package-list "/home/grillo/Documentos/camara/.package-list"  "$@"
-else
-    exec "/home/grillo/SIMICS/simics-6.0.128/bin/lookup-file"  "$@"
-fi
