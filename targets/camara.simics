@@ -1,6 +1,6 @@
 load-module camara-comp
-load module module= camara-pci
-create-pci-camara-comp "camara" integer_attribute= 14
+load-module module= camara-pci
+create-sample-pci-card name= "camara" integer_attribute= 14
 connect "board.mb.sb.pci_slot[0]" camara.pci_bus
 instantiate-components
 c
