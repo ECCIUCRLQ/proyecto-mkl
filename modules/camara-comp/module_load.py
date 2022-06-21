@@ -4,5 +4,5 @@
 #
 # Copyright 2014-2022 Intel Corporation
 
-from . import sample_components
-sample_components.sample_pci_card.register()
+from . import camara_comp
+camara_comp.sample_pci_card.register()
