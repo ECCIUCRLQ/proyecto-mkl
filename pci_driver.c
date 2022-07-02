@@ -295,97 +295,7 @@ static void remove_pci_camara_driver(struct pci_dev *pdev) {
 /***************************************************************************************************************/
 /* Character device file operations */
 /***************************************************************************************************************/
-static int open_pci_camara_chr_dev(struct inode *pinode, struct file *pfile) {
-    printk("Character device file opened\n");
-    return 0;
-}
 
-static int close_pci_camara_chr_dev(struct inode *pinode, struct file *pfile) {
-    printk("Character device file closed\n");
-    return 0;
-}
-
-static ssize_t read_pci_camara_chr_dev(struct file *pfile, char __user *buffer, size_t length, loff_t *offset) {
-    char *data = "Hello from the kernel world!\n";
-    size_t datalen = strlen(data);
-    
-    printk("Reading character device: %d\n", MINOR(pfile->f_path.dentry->d_inode->i_rdev));
-
-    if (length > datalen) {
-        length = datalen;
-    }
-
-    if (copy_to_user(buffer, data, length)) {
-        return -EFAULT;
-    }
-
-    return length;
-}
-
-static ssize_t write_pci_camara_chr_dev(struct file *pfile, const char __user *buffer, size_t length, loff_t *offset) {
-    size_t n_copied;
-    size_t max_data_len = MAX_BUFFER_DATA_LEN;
-    char data_buf[MAX_BUFFER_DATA_LEN];
-
-    printk("Writing character device: %d\n", MINOR(pfile->f_path.dentry->d_inode->i_rdev));
-
-    if (length < max_data_len) {
-        max_data_len = length;
-    }
-
-    n_copied = copy_from_user(data_buf, buffer, max_data_len);
-
-    if (n_copied == 0) {
-        printk("Copied %zd bytes from the user\n", max_data_len);
-    }
-    else {
-        printk("Couldn't copy %zd bytes from the user\n", n_copied);
-    }
-
-    data_buf[max_data_len] = 0;
-
-    printk("Data from the user: %s\n", data_buf);
-
-    return length;
-}
-
-static long ioctl_pci_camara_chr_dev(struct file *file, unsigned int cmd, unsigned long arg) {
-    int error;
-    uint32_t buffer;
-
-    switch (cmd) {
-        case WR_VALUE:
-            error = copy_from_user(&buffer, (int32_t *) arg, sizeof(buffer));
-            if (error != 0) {
-                printk(KERN_ERR "IOCTL write data failed. Error: %d", error);
-            }
-            else {
-                printk(KERN_INFO "IOCTL data received: 0x%x", buffer);
-            }
-
-            write_test_register(buffer);
-            break;
-
-        case RD_VALUE:
-            buffer = read_test_register();
-            error = copy_to_user((int32_t *) arg, &buffer, sizeof(buffer));
-            if (error != 0) {
-                printk(KERN_ERR "IOCTL failed while sending data to user. Error: %d\n", error);
-            }
-            break;
-
-        default:
-            printk(KERN_ERR "IOCTL command not recognized");
-            error = ENOTTY;
-    }
-    
-    return error;
-}
-
-static int uevent_pci_camara_chr_dev(struct device *dev, struct kobj_uevent_env *env) {
-    add_uevent_var(env, "DEVMODE=%#o", 0666);
-    return 0;
-}
 
 /***************************************************************************************************************/
 /* Internal/Private functions definition */
@@ -418,4 +328,4 @@ MODULE_VERSION("1.0");
 MODULE_DEVICE_TABLE(pci, pci_camara_driver_table);
 
 module_init(init_pci_camara_driver);
-module_exit(finalize_pci_camara_driver);5
+module_exit(finalize_pci_camara_driver);
