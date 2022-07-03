@@ -1,0 +1,3 @@
+# Auto-generated file. Any changes will be overwritten!
+decl { substitute "/home/lucy/SIMICS/simics-qsp-x86-6.0.57/targets/qsp-x86/firststeps.simics" }
+run-command-file "/home/lucy/SIMICS/simics-qsp-x86-6.0.57/targets/qsp-x86/firststeps.simics"

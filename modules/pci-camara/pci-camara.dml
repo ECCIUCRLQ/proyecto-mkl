@@ -17,9 +17,9 @@
 
 dml 1.4;
 
-device sample_pci_device;
-param desc = "sample PCI device";
-param documentation = "This is a very simple PCI device.";
+device pci_camara;
+param desc = "Una camara PCI";
+param documentation = "Es una camara PCI";
 
 import "pci/common.dml";
 is pci_device;
@@ -27,6 +27,8 @@ is pci_device;
 param pci_hotplug = true;
 
 attribute int_attr is uint64_attr "An integer attribute";
+
+param BUFFER_SIZE = 256;
 
 bank pci_config {
 
@@ -55,6 +57,9 @@ bank regs is function_mapped_bank {
     register version      @ 0x0010 "Major and minor version" {
         is read_only;
         param init_val = 0x4711;
+    }
+    register buf_size size 4 @ 0x4 {
+    	param init_val= BUFFER_SIZE;
     }
 }
 

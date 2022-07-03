@@ -2,10 +2,9 @@
 # Simics module makefile
 #
 
-MODULE_COMPONENTS := sample_pci_card
-
+MODULE_COMPONENTS := camara_comp
 SIMICS_API := latest
 THREAD_SAFE:=yes
-PYTHON_FILES = sample_components.py module_load.py
+PYTHON_FILES = camara_comp.py module_load.py
 
 include $(MODULE_MAKEFILE)
