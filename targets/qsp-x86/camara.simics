@@ -1,0 +1,30 @@
+$disk0_image = "qsp-driver-support.craff"
+
+run-command-file "targets/qsp-x86/firststeps.simics"
+
+load-module camara_comp
+load-module module= pci-camara
+create-camara-comp name= pci_camara
+connect pci_camara.pci_bus cnt1 = "board.mb.nb.pci_slot[1]"
+instantiate-components
+
+pci_camara.log-level 4
+
+script-branch{
+	$sercon = board.serconsole.con
+	
+	$sercon.wait-for-string "simics@cl-qsp ~ $ "
+	$sercon.input "simics-agent name=bond &\n"
+	$sercon.wait-then-write "simics@cl-qsp ~ $ " "\n"
+	$agent = (start-agent-manager)
+    	$agent.list-agents
+    	$agent.connect-to-agent
+    	matic0.pwd
+    	
+    	matic0.upload driver/Makefile /home/simics/
+    	matic0.upload driver/pci_camara_driver.c /home/simics/
+    	
+    	$sercon.wait-then-write "simics@cl-qsp ~ $ " "\n"
+    	$sercon.wait-then-write "simics@cl-qsp ~ $ " "make\n"
+    	$sercon.wait-then-write "simics@cl-qsp ~ $ " "sudo insmod pci_camara_module.ko\n"
+}
