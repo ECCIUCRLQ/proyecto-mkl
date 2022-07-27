@@ -13,8 +13,8 @@
 /***************************************************************************************************************/
 /* Constants */
 /***************************************************************************************************************/
-#define PCI_CAPTURE_DRIVER "pci_camara_driver"             // name of PCI driver
-#define PCI_CAPTURE_DRIVER_CHR_DEV "pci_camara_chr_dev"    // name of character device driver
+#define PCI_CAPTURE_DRIVER "pci_capture_driver"             // name of PCI driver
+#define PCI_CAPTURE_DRIVER_CHR_DEV "pci_capture_chr_dev"    // name of character device driver
 #define MAJOR_NUMBER 0                                      // major number for character device
 #define MAX_CHR_DEV 1                                       // amount of character devices
 #define MAX_BUFFER_DATA_LEN 30                              // max length of buffer
@@ -22,7 +22,7 @@
 /* IOCTL */
 #define WR_VALUE _IOW('a', 'a', int32_t *)
 #define RD_VALUE _IOR('b', 'b', int32_t *)
-#define READ_VALUE_FROM_PCI_DEIVCE _IOR('c','b',int32_t *)
+
 /***************************************************************************************************************/
 /* Driver functions */
 /***************************************************************************************************************/
@@ -328,7 +328,7 @@ static ssize_t write_pci_capture_chr_dev(struct file *pfile, const char __user *
     char data_buf[MAX_BUFFER_DATA_LEN];
 
     printk("Writing character device: %d\n", MINOR(pfile->f_path.dentry->d_inode->i_rdev));
-    
+
     if (length < max_data_len) {
         max_data_len = length;
     }

@@ -23,8 +23,10 @@ script-branch{
     	
     	matic0.upload driver/Makefile /home/simics/
     	matic0.upload driver/pci_camara_driver.c /home/simics/
+    	matic0.upload driver/test_ioctl.c /home/simics/
     	
     	$sercon.wait-then-write "simics@cl-qsp ~ $ " "\n"
     	$sercon.wait-then-write "simics@cl-qsp ~ $ " "make\n"
     	$sercon.wait-then-write "simics@cl-qsp ~ $ " "sudo insmod pci_camara_module.ko\n"
+    	$sercon.wait-then-write "simics@cl-qsp ~ $ " "sudo gcc -o test_ioctl test_ioctl.c\n"
 }
